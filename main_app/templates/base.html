@@ -15,7 +15,7 @@
     <nav>
         <div class="nav-wrapper #ffa726 orange lighten-1">
             <ul>
-                <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Game Night</a></li>
+                <li><a href="{% url 'groups_index' %}" class="left brand-logo">&nbsp;&nbsp;Game Night</a></li>
             </ul>
             <ul class="right">
               {% if user.is_authenticated %}

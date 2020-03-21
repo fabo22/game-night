@@ -10,6 +10,7 @@ class GameGroup(models.Model):
     state = models.CharField(max_length=30)
     zip_code = models.IntegerField()
     users = models.ManyToManyField(User)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
     description = models.TextField(max_length=3000)
 
     def __str__(self):
