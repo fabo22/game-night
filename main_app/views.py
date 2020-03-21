@@ -16,11 +16,15 @@ class GroupDetail(LoginRequiredMixin, DetailView):
 
 class GroupCreate(LoginRequiredMixin, CreateView):
     model = GameGroup
-    fields = ['name', 'city', 'description', 'state', 'zip_code']
+    fields = ['name', 'city', 'state', 'zip_code', 'description']
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
+class GroupUpdate(LoginRequiredMixin, UpdateView):
+  model = GameGroup
+  fields = ['description']
 
 def home(request):
     return redirect('signup')
