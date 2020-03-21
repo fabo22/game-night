@@ -25,10 +25,10 @@ class Event(models.Model):
     zip_code = models.IntegerField(max_length=5)
     game = models.TextField(max_length=200)
     game_description = models.TextField(max_length=3000)
-    limit = models.Integer()
+    # limit = models.Integer()
 
-    def limit_check(self):
-    return self.user_set.filter
+    # def limit_check(self):
+    # return self.user_set.filter
 
 class Genre(models.Model):
     genres = models.CharField(max_length=50)
