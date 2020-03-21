@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Group(models.Model):
+class GameGroup(models.Model):
     name = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
@@ -27,16 +27,16 @@ class Event(models.Model):
 
 class Genre(models.Model):
     genres = models.CharField(max_length=50)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
 
 class Application(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
 
 class Attending(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
