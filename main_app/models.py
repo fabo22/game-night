@@ -6,10 +6,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Group(models.Model):
     name = models.CharField(max_length=30)
-    created_by = models.ForeignKey(User)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
-    zip_code = models.IntegerField(max_length=5)
+    zip_code = models.IntegerField()
     users = models.ManyToManyField(User)
     description = models.TextField(max_length=3000)
 
@@ -18,32 +17,35 @@ class Group(models.Model):
 
 class Event(models.Model):
     date = models.DateTimeField('date and time')
-    created_by = models.ForeignKey(User)
-    users = models.ManyToManyField(User)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
-    zip_code = models.IntegerField(max_length=5)
+    zip_code = models.IntegerField()
     game = models.TextField(max_length=200)
     game_description = models.TextField(max_length=3000)
-    # limit = models.Integer()
-
-    # def limit_check(self):
-    # return self.user_set.filter
+    limit = models.IntegerField()
 
 class Genre(models.Model):
     genres = models.CharField(max_length=50)
-    group = models.ForeignKey(Group)
-
-class Application(models.Model):
-    user = models.ForeignKey(User)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
-class Photo(models.Models):
+class Application(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+
+class Photo(models.Model):
     url = models.CharField(max_length=200)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 class Attending(models.Model):
-    user = models.ForeignKey(User)
-    event = models.ForeignKey(Event, on_delete=CASCADE)
-    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    # we gotta get this later
+    # def check_limit(self, event_id):
+    #     return self.event_set.filter(event=event_id).count() < Event.objects.get(id=event_id).limit
+
+    # example from finches lab
+    # finches = Finch.objects.filter(user=request.user)
+    # return self.feeding_set.filter(date=date.today()).count() >= len(MEALS)
