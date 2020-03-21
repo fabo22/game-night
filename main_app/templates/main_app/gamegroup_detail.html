@@ -10,7 +10,7 @@
         <span class="card-title">{{ gamegroup.name }}</span>
       </div>
       <div class="card-action">
-          <p>edit link here</p>
+          <a href="{% url 'groups_update' gamegroup.id %}">Edit</a>
           <p>delete link here</p>
       </div>
     </div>

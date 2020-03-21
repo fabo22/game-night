@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class GameGroup(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
     zip_code = models.IntegerField()
@@ -15,6 +15,9 @@ class GameGroup(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('groups_detail', kwargs={'pk': self.id})
 
 class Event(models.Model):
     date = models.DateTimeField('date and time')
