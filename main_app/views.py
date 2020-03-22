@@ -1,17 +1,33 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .models import GameGroup, Attending, Application, Event, Genre, Photo
 # Create your views here.
+
+class GroupList(LoginRequiredMixin, ListView):
+  model = GameGroup
+
+class GroupDetail(LoginRequiredMixin, DetailView):
+  model = GameGroup
+
+class GroupCreate(LoginRequiredMixin, CreateView):
+    model = GameGroup
+    fields = ['name', 'city', 'state', 'zip_code', 'description']
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+
+class GroupUpdate(LoginRequiredMixin, UpdateView):
+  model = GameGroup
+  fields = ['description']
 
 def home(request):
     return redirect('signup')
-
-def groups_index(request):
-    return HttpResponse('<h1>Groups yo</h1>')
 
 def signup(request):
   error_message = ''

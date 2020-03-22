@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Group List</h1>
+
+{% for group in gamegroup_list %}
+    <a href="{% url 'groups_detail' group.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ group.name }}</span>
+        </div>
+    </div>
+    </a>
+{% endfor %}
+
+{% endblock %}
