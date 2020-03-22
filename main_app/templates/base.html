@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cat Collector</title>
+    <title>Game Night</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -15,7 +15,7 @@
     <nav>
         <div class="nav-wrapper #ffa726 orange lighten-1">
             <ul>
-                <li><a href="{% url 'groups_index' %}" class="left brand-logo">&nbsp;&nbsp;Game Night</a></li>
+                <li><a href="{% url 'groups_index' %}" class="left brand-logo"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
             </ul>
             <ul class="right">
               {% if user.is_authenticated %}
@@ -35,5 +35,10 @@
     <footer class="page-footer #ffa726 orange lighten-1">
         <div class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</div>
      </footer>
+     <script> M.AutoInit();</script>
+     <script>  document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.slider');
+        var instances = M.Slider.init(elems, options);
+      });</script>
 </body>
 </html>
