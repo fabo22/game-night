@@ -13,9 +13,12 @@
         <p>Description: {{ gamegroup.description }}</p>
       </div>
       <div class="card-action">
-          <a class="waves-effect waves-light btn modal-trigger" href="#modal2">Edit</a>
-          <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Delete</a>
-<!-- Modal's Code below here -->
+        {% if gamegroup.created_by == request.user %}
+        <a class="waves-effect waves-light modal-trigger" href="#modal2">Edit</a>
+        <a class="waves-effect waves-light modal-trigger" href="#modal1">Delete</a>
+        {% endif %}
+          <a class="waves-effect waves-light modal-trigger" href="#modal3">New Event</a>
+          <!-- Modal's Code below here -->
           <div id="modal1" class="modal">
             <div class="modal-content">
               <h4>Confirm Delete?</h4>
@@ -37,6 +40,20 @@
               </form>
             </div>
             <div class="modal-footer">
+              <a href="" class="modal-close waves-effect waves-green btn">Cancel</a>
+            </div>
+          </div>
+          
+          <div id="modal3" class="modal">
+            <div class="modal-content">
+              <h4>New Event</h4>
+              <form action="{% url 'add_event' gamegroup.id %}" method="post">
+                {% csrf_token %}
+                {{ event_form.as_p }}
+                <input type="submit" class="btn" value="Add Event">
+              </form>
+            </div>
+            <div class="modal-footer">
               <a href="#" class="modal-close waves-effect waves-green btn">Cancel</a>
             </div>
           </div>
@@ -45,5 +62,18 @@
     </div>
   </div>
 </div>
+<script>
+  var dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  });
+  var timeEl = document.getElementById('id_time');
+  M.Timepicker.init(timeEl, {
+    autoClose: true
+  });
+</script>
 {% include "events.html" %}
 {% endblock %}

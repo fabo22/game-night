@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from datetime import datetime
+from datetime import date, time
 from django.contrib.auth.models import User
 
 # Create your models here.
@@ -17,11 +17,12 @@ class GameGroup(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('groups_detail', kwargs={'pk': self.id})
+        return reverse('groups_detail', kwargs={'group_id': self.id})
 
 class Event(models.Model):
     name = models.CharField(max_length=30)
-    date = models.DateTimeField('date and time')
+    date = models.DateField('date')
+    time = models.TimeField('time', auto_now_add=False, editable=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=60)
     city = models.CharField(max_length=30)
@@ -31,6 +32,10 @@ class Event(models.Model):
     game_description = models.TextField(max_length=3000)
     limit = models.IntegerField()
     group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
+    
+  # change the default sort
+    class Meta:
+        ordering = ['-date']
 
 class Genre(models.Model):
     genres = models.CharField(max_length=50)
