@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms import GroupForm
 from .models import GameGroup, Attending, Application, Event, Genre, Photo
 # Create your views here.
 
@@ -25,6 +26,28 @@ class GroupCreate(LoginRequiredMixin, CreateView):
 class GroupUpdate(LoginRequiredMixin, UpdateView):
   model = GameGroup
   fields = ['description']
+
+@login_required
+def groups_update(request, group_id):
+  gamegroup = GameGroup.objects.get(id = group_id)
+  print('test-----', request.POST.get('description'))
+  if gamegroup.created_by == request.user:
+    gamegroup.description=request.POST.get('description')
+    gamegroup.save()
+  else:
+    return redirect('groups_detail', group_id)
+  return redirect('groups_detail', group_id)
+
+@login_required
+def groups_delete(request, group_id):
+  gamegroup = GameGroup.objects.get(id=group_id)
+  if gamegroup.created_by == request.user:
+    gamegroup.delete()
+  else:
+    return redirect('groups_detail', group_id)
+  return redirect('groups_index')
+
+
 
 def home(request):
     return redirect('signup')
