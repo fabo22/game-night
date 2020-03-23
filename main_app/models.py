@@ -20,8 +20,10 @@ class GameGroup(models.Model):
         return reverse('groups_detail', kwargs={'pk': self.id})
 
 class Event(models.Model):
+    name = models.CharField(max_length=30)
     date = models.DateTimeField('date and time')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=60)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
     zip_code = models.IntegerField()
