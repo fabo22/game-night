@@ -20,6 +20,7 @@
             <ul class="right">
               {% if user.is_authenticated %}
                 <li><a href="{% url 'groups_create' %}">Create New Group</a></li>
+                <li><a href="{% url 'groups_index' %}">All Groups</a></li>
                 <li><a href="{% url 'logout' %}">Log Out</a></li>
               {% else %}
                 <li><a href="{% url 'signup' %}">Sign Up</a></li>
