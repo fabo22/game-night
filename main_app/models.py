@@ -11,7 +11,7 @@ class GameGroup(models.Model):
     zip_code = models.IntegerField()
     users = models.ManyToManyField(User)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_by')
-    description = models.TextField(max_length=3000)
+    description = models.TextField(max_length=3000) 
 
     def __str__(self):
         return self.name
@@ -30,6 +30,7 @@ class Event(models.Model):
     game = models.TextField(max_length=200)
     game_description = models.TextField(max_length=3000)
     limit = models.IntegerField()
+    group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
 
 class Genre(models.Model):
     genres = models.CharField(max_length=50)
