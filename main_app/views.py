@@ -6,14 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import GameGroup, Attending, Application, Event, Genre, Photo
+from .forms import EventForm
 # Create your views here.
 
 class GroupList(LoginRequiredMixin, ListView):
   model = GameGroup
-
-class GroupDetail(LoginRequiredMixin, DetailView):
-  model = GameGroup
-  event_model = Event
 
 class GroupCreate(LoginRequiredMixin, CreateView):
     model = GameGroup
@@ -23,6 +20,29 @@ class GroupCreate(LoginRequiredMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
+@login_required
+def groups_detail(request, group_id):
+    gamegroup = GameGroup.objects.get(id=group_id)
+    event_form = EventForm()
+    return render(request, 'groups/detail.html', {
+        'gamegroup': gamegroup,
+        'event_form': event_form,
+        # Attending pass
+    })
+  
+@login_required
+def add_event(request, group_id):
+  form = EventForm(request.POST)
+  # print('Form Errors: ', form.errors)
+  print('******Form Data: ', form)
+  if form.is_valid():
+    print('********form valid*********')
+    new_event = form.save(commit=False)
+    new_event.group_id = group_id
+    new_event.created_by_id = request.user.id
+    new_event.save()
+  return redirect('groups_detail', group_id)
+  
 @login_required
 def groups_update(request, group_id):
   gamegroup = GameGroup.objects.get(id = group_id)
@@ -45,6 +65,9 @@ def groups_delete(request, group_id):
 
 
 def home(request):
+  if request.user.is_authenticated:
+    return redirect('groups_index')
+  else:
     return redirect('signup')
 
 def signup(request):

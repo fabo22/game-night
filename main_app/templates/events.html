@@ -5,7 +5,8 @@
             <span class="card-title grey-text text-darken-4">Sign Up<i class="material-icons right">unfold_less</i></span>
             <table>
                 <thead>
-                    <th>Date & Time</th>
+                    <th>Date</th>
+                    <th>Time</th>
                     <th>Host</th>
                     <th>Address</th>
                     <th>City</th>
@@ -17,6 +18,7 @@
                 <tbody>
                     <tr>
                         <td>{{ event.date }}</td>
+                        <td>{{ event.time }}</td>
                         <td>{{ event.created_by }}</td>
                         <td>{{ event.address }}</td>
                         <td>{{ event.city }}</td>
