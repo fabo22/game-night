@@ -12,11 +12,19 @@
         <p>Zip: {{gamegroup.zip_code}}</p> 
         <p>Group organizer: {{gamegroup.created_by}}</p> 
         <p>Description: {{ gamegroup.description }}</p>
+        {% for photo in gamegroup.photo_set.all %}
+          <img class="responsive-img card-panel" src="{{photo.url}}">
+        {% empty %}
+          <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+        {% endfor %}
       </div>
+
+
       <div class="card-action">
         {% if gamegroup.created_by == request.user %}
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalB">Edit</a>
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalA">Delete</a>
+        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a>
         {% endif %}
           <a class="waves-effect waves-light modal-trigger teal-text" href="#modalC">New Event</a>
           <!-- Modal's Code below here -->
@@ -52,6 +60,21 @@
                 {% csrf_token %}
                 {{ add_event_form.as_p }}
                 <input type="submit" class="btn" value="Add Event">
+              </form>
+            </div>
+            <div class="modal-footer">
+              <a class="modal-close waves-effect waves-green btn">Cancel</a>
+            </div>
+          </div>
+
+          <div id="modalD" class="modal">
+            <div class="modal-content">
+              <h4>Add Photo</h4>
+              <form action="{% url 'add_photo' gamegroup.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+                {% csrf_token %}
+                <input type="file" name="photo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Photo">
               </form>
             </div>
             <div class="modal-footer">
