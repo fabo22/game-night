@@ -13,17 +13,17 @@
 <body>
 <header class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper #ffa726 #fff59d yellow lighten-1 grey-text">
+        <div class="nav-wrapper #ffa726 #fff59d yellow lighten-1">
             <ul>
-                <li><a href="{% url 'groups_index' %}" class="left brand-logo"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
+                <li><a href="{% url 'groups_index' %}" class="left brand-logo grey-text"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
             </ul>
             <ul class="right">
               {% if user.is_authenticated %}
-                <li><a href="{% url 'groups_create' %}">Create New Group</a></li>
-                <li><a href="{% url 'groups_index' %}">All Groups</a></li>
-                <li><a href="{% url 'logout' %}">Log Out</a></li>
+                <li><a href="{% url 'groups_create' %}" class="grey-text">Create New Group</a></li>
+                <li><a href="{% url 'groups_index' %}" class="grey-text">All Groups</a></li>
+                <li><a href="{% url 'logout' %}" class="grey-text">Log Out</a></li>
               {% else %}
-                <li><a href="{% url 'login' %}">Log In</a></li>
+                <li><a href="{% url 'login' %}" class="grey-text">Log In</a></li>
               {% endif %}
             </ul>
         </div>
