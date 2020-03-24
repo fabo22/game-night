@@ -24,12 +24,14 @@ class GroupCreate(LoginRequiredMixin, CreateView):
 @login_required
 def groups_detail(request, group_id):
     gamegroup = GameGroup.objects.get(id=group_id)
+    applicants = Application.objects.filter(group=gamegroup)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
     return render(request, 'groups/detail.html', {
         'gamegroup': gamegroup,
         'add_event_form': add_event_form,
         'edit_event_form': edit_event_form,
+        'applicants': applicants,
         # Attending pass
     })
 
@@ -67,6 +69,23 @@ def apply_group(request, group_id):
     return redirect('groups_detail', group_id)
   except IntegrityError:
     return redirect('groups_detail', group_id)
+
+# user1 = User.objects.get(pk=1)
+# user2 = User.objects.get(pk=2)
+
+def accept_app(request, application_id):
+  application = Application.objects.get(id=application_id)
+  group_id = application.group.id
+  application.group.users.add(application.user)
+
+  application.delete()
+  return redirect('groups_detail', group_id)
+
+def decline_app(request, application_id):
+  application = Application.objects.get(id=application_id)
+  group_id = application.group.id
+  application.delete()
+  return redirect('groups_detail', group_id)
 
 @login_required
 def attend_event(request, event_id):
