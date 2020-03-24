@@ -1,37 +1,61 @@
 {% for event in gamegroup.event_set.all %}
-<div class="card">
+<div class="card hoverable">
     <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">{{ event.name }}<i class="material-icons right">unfold_more</i></span>
-            <span class="card-title grey-text text-darken-4">Sign Up<i class="material-icons right">unfold_less</i></span>
-            <table>
-                <thead>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Host</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                    <th>Game</th>
-                    <th>Limit</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ event.date }}</td>
-                        <td>{{ event.time }}</td>
-                        <td>{{ event.created_by }}</td>
-                        <td>{{ event.address }}</td>
-                        <td>{{ event.city }}</td>
-                        <td>{{ event.state }}</td>
-                        <td>{{ event.zip_code }}</td>
-                        <td>{{ event.game }}</td>
-                        <td>{{ event.limit }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>{{ event.game_description }}</p>
+        <h4 class="card-title grey-text text-darken-4">{{ event.name }}</h4>
+        <p class="right"><i class="small material-icons">people</i>  {{ event.limit }}</p>
+        <a href="" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <h6 class= "blue-text text-darken-4"><i class="small material-icons">insert_invitation</i>  {{ event.date }}</h6>
+        <h6 class= "blue-text text-darken-4"><i class="small material-icons">schedule</i>  {{ event.time }}</h6>
+            <div>
+            <span class="card-title grey-text text-darken-4"></span>
+                <p><i class="small material-icons">person_pin_circle</i>Hosted by {{ event.created_by }}</p>
+                <p><i class="small material-icons">directions</i>  {{ event.address }}</p>
+                <p><i class="small material-icons">location_city</i>  {{ event.city }}, {{ event.state }} {{ event.zip_code }}</p>
+                <p><i class="small material-icons">casino</i>  {{ event.game }}</p>
+                <p><i class="small material-icons">textsms</i>  {{ event.game_description }}</p>
+            </div>
+            <div class="card-action">
+                <a class="waves-effect waves-light modal-trigger" href="#modal{{event.id}}">Edit</a>
+                <a class="waves-effect waves-light modal-trigger" href="#modalDelete{{event.id}}">Delete</a>
+                <div id="modal{{event.id}}" class="modal">
+                    <div class="modal-content">
+                        <h4>Test</h4>
+                        <form action="{% url 'update_event' event.id %}" method="post">
+                            {% csrf_token %}
+                            {{ edit_event_form.as_p }}
+                            <input type="submit" class="btn" value="Edit Event">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="modal-close waves-effect waves-green btn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="modalDelete{{event.id}}" class="modal">
+                <div class="modal-content">
+                  <h4>Confirm Delete?</h4>
+                </div>
+                <div class="modal-footer">
+                  <a href="{% url 'delete_event' event.id %}" class="modal-close waves-effect waves-green btn">Delete</a>
+                  <a class="modal-close waves-effect waves-green btn">Cancel</a>
+                </div>
+              </div>
     </div>
 </div>
+<script>
+    var dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+      format: 'yyyy-mm-dd',
+      defaultDate: new Date(),
+      setDefaultDate: true,
+      autoClose: true
+    });
+    var timeEl = document.getElementById('id_time');
+    M.Timepicker.init(timeEl, {
+      autoClose: true
+    });
+  </script>
 {% endfor %}
 <!-- 
 <div class="card-content">

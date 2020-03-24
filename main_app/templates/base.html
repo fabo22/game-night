@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Game Night</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -12,7 +13,7 @@
 <body>
 <header class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper #ffa726 orange lighten-1">
+        <div class="nav-wrapper #ffa726 #fff59d yellow lighten-1 grey-text">
             <ul>
                 <li><a href="{% url 'groups_index' %}" class="left brand-logo"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
             </ul>
@@ -32,9 +33,9 @@
     {% block content %}
     {% endblock %}
 </main>
-    <footer class="page-footer #ffa726 orange lighten-1">
-        <div class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</div>
-     </footer>
+    <footer class="page-footer #ffa726 #ffee58 yellow lighten-1 grey-text">
+        <p class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</p>
+    </footer>
      <script> M.AutoInit();</script>
 </body>
 </html>
