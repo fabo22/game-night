@@ -17,6 +17,7 @@
         {% if gamegroup.created_by == request.user %}
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalB">Edit</a>
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalA">Delete</a>
+        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalApp">Applications</a>
         {% endif %}
           <a class="waves-effect waves-light modal-trigger teal-text" href="#modalC">New Event</a>
           <!-- Modal's Code below here -->
@@ -53,6 +54,43 @@
                 {{ add_event_form.as_p }}
                 <input type="submit" class="btn" value="Add Event">
               </form>
+            </div>
+            <div class="modal-footer">
+              <a class="modal-close waves-effect waves-green btn">Cancel</a>
+            </div>
+          </div>
+
+          <div id="modalApp" class="modal">
+            <div class="modal-content">
+              <h2 class="header">Applications</h2>
+              <div class="modal-header right">
+                <a class="modal-close waves-effect waves-green btn">Cancel</a>
+              </div>
+              {% for application in applicants %}
+              <div class="col s12">
+                  <div class="card horizontal">
+                    <div class="card-image">
+                      <img src="">
+                    </div>
+                    <div class="card-stacked">
+                      <div class="card-content">
+                        <h4>{{application.user.username}}</h4>
+                      </div>
+                      <div class="card-action">
+                        <form action="{% url 'accept_app' application.id %}" method="post">
+                          {% csrf_token %}
+                          <input type="submit" class="btn" value="Accept User">
+                        </form>
+                        <form class="right" action="{% url 'decline_app' application.id %}" method="post">
+                          {% csrf_token %}
+                          <input type="submit" class="btn" value="Decline User">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              
             </div>
             <div class="modal-footer">
               <a class="modal-close waves-effect waves-green btn">Cancel</a>
