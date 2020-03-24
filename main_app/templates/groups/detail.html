@@ -5,7 +5,7 @@
   <div class="col s6">
     <div class="card #bbdefb blue lighten-4 hoverable">
       <div class="card-content black-text">
-        <a class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
         <span class="card-title">{{ gamegroup.name }}</span>
         <p>City: {{gamegroup.city}}</p> 
         <p>State: {{gamegroup.state}} </p> 
