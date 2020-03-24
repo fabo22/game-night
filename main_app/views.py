@@ -33,6 +33,7 @@ def groups_detail(request, group_id):
     applicants = Application.objects.filter(group=gamegroup)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
+    print(gamegroup.users.all)
     return render(request, 'groups/detail.html', {
         'gamegroup': gamegroup,
         'add_event_form': add_event_form,
