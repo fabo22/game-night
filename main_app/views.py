@@ -8,7 +8,13 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import GameGroup, Attending, Application, Event, Genre, Photo
 from .forms import AddEventForm, EditEventForm
+
+import uuid
+import boto3
 # Create your views here.
+
+S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
+BUCKET = 'game-night1'
 
 class GroupList(LoginRequiredMixin, ListView):
   model = GameGroup
@@ -27,6 +33,7 @@ def groups_detail(request, group_id):
     applicants = Application.objects.filter(group=gamegroup)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
+    print(gamegroup.users.all)
     return render(request, 'groups/detail.html', {
         'gamegroup': gamegroup,
         'add_event_form': add_event_form,
@@ -138,6 +145,23 @@ def home(request):
     return redirect('groups_index')
   else:
     return redirect('signup')
+
+def add_photo(request, group_id):
+
+    gamegroup = GameGroup.objects.get(id=group_id)
+    if gamegroup.created_by == request.user:
+      photo_file = request.FILES.get('photo-file', None)
+      if photo_file:
+          s3 = boto3.client('s3')
+          key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+          try:
+              s3.upload_fileobj(photo_file, BUCKET, key)
+              url = f"{S3_BASE_URL}{BUCKET}/{key}"
+              photo = Photo(url=url, user = request.user, group_id=group_id)
+              photo.save()
+          except:
+              print('An error occurred uploading file to S3')
+      return redirect('groups_detail', group_id)
 
 def signup(request):
   error_message = ''
