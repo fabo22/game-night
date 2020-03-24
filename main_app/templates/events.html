@@ -4,7 +4,7 @@
     <div class="card-content">
         <h4 class="card-title grey-text text-darken-4">{{ event.name }}</h4>
         <p class="right"><i class="small material-icons">people</i>  {{ event.limit }}</p>
-        <a href="" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <a href="{% url 'attend_event' event.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">insert_invitation</i>  {{ event.date }}</h6>
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">schedule</i>  {{ event.time }}</h6>
             <div>

@@ -5,7 +5,7 @@
   <div class="col s6">
     <div class="card #bbdefb blue lighten-4 hoverable">
       <div class="card-content black-text">
-        <a class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
         <span class="card-title">{{ gamegroup.name }}</span>
         <p>City: {{gamegroup.city}}</p> 
         <p>State: {{gamegroup.state}} </p> 
@@ -24,7 +24,11 @@
         {% if gamegroup.created_by == request.user %}
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalB">Edit</a>
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalA">Delete</a>
+<<<<<<< HEAD
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a>
+=======
+        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalApp">Applications</a>
+>>>>>>> master
         {% endif %}
           <a class="waves-effect waves-light modal-trigger teal-text" href="#modalC">New Event</a>
           <!-- Modal's Code below here -->
@@ -67,6 +71,7 @@
             </div>
           </div>
 
+<<<<<<< HEAD
           <div id="modalD" class="modal">
             <div class="modal-content">
               <h4>Add Photo</h4>
@@ -76,6 +81,39 @@
                 <br><br>
                 <input type="submit" class="btn" value="Upload Photo">
               </form>
+=======
+          <div id="modalApp" class="modal">
+            <div class="modal-content">
+              <h2 class="header">Applications</h2>
+              <div class="modal-header right">
+                <a class="modal-close waves-effect waves-green btn">Cancel</a>
+              </div>
+              {% for application in applicants %}
+              <div class="col s12">
+                  <div class="card horizontal">
+                    <div class="card-image">
+                      <img src="">
+                    </div>
+                    <div class="card-stacked">
+                      <div class="card-content">
+                        <h4>{{application.user.username}}</h4>
+                      </div>
+                      <div class="card-action">
+                        <form action="{% url 'accept_app' application.id %}" method="post">
+                          {% csrf_token %}
+                          <input type="submit" class="btn" value="Accept User">
+                        </form>
+                        <form class="right" action="{% url 'decline_app' application.id %}" method="post">
+                          {% csrf_token %}
+                          <input type="submit" class="btn" value="Decline User">
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              
+>>>>>>> master
             </div>
             <div class="modal-footer">
               <a class="modal-close waves-effect waves-green btn">Cancel</a>

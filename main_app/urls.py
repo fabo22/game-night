@@ -9,8 +9,15 @@ urlpatterns = [
     path('groups/<int:group_id>/update/', views.groups_update, name='groups_update'),
     path('groups/<int:group_id>/delete/', views.groups_delete, name='groups_delete'),
     path('groups/<int:group_id>/add_event/', views.add_event, name='add_event'),
+<<<<<<< HEAD
     path('groups/<int:group_id>/add_photo/', views.add_photo, name='add_photo'),
+=======
+    path('groups/<int:group_id>/apply/', views.apply_group, name='apply_group'),
+    path('groups/<int:application_id>/accept/', views.accept_app, name='accept_app'),
+    path('groups/<int:application_id>/decline', views.decline_app, name='decline_app'),
+>>>>>>> master
     path('groups/<int:event_id>/update_event/', views.update_event, name='update_event'),
     path('groups/<int:event_id>/delete_event/', views.delete_event, name='delete_event'),
+    path('groups/<int:event_id>/attend/', views.attend_event, name='attend_event'),
     path('accounts/signup/', views.signup, name='signup'),
 ]

@@ -44,6 +44,10 @@ class Genre(models.Model):
 class Application(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'group'], name='unique_application')
+        ]
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
@@ -53,6 +57,10 @@ class Photo(models.Model):
 class Attending(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'event'], name='unique_attendee')
+        ]
 
     # we gotta get this later
     # def check_limit(self, event_id):
