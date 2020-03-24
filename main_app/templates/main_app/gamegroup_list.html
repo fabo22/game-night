@@ -5,7 +5,7 @@
 
 {% for group in gamegroup_list %}
     <a href="{% url 'groups_detail' group.id %}">
-    <div class="card">
+    <div class="card hoverable">
         <div class="card-content">
             <span class="card-title">{{ group.name }}</span>
         </div>
