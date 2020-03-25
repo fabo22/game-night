@@ -58,6 +58,8 @@ class Photo(models.Model):
 class Attending(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user', 'event'], name='unique_attendee')
@@ -70,3 +72,4 @@ class Attending(models.Model):
     # example from finches lab
     # finches = Finch.objects.filter(user=request.user)
     # return self.feeding_set.filter(date=date.today()).count() >= len(MEALS)
+ 
