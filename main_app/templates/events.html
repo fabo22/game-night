@@ -4,8 +4,11 @@
 <div class="card hoverable">
     <div class="card-content">
         <h4 class="card-title grey-text text-darken-4">{{ event.name }}</h4>
-        <p class="right"><i class="small material-icons">people</i>  {{ event.limit }}</p>
-        <a href="{% url 'attend_event' event.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <p class="right"><i class="small material-icons">people</i>{{attendees.count}} out of {{ event.limit }}</p>
+        {% if request.user == gamegroup.created_by or request.user in gamegroup_users %}
+        <a href="{% url 'attend_event' event.id %}" class="right"><i class="btn-floating btn-small waves-effect waves-light material-icons red">people_add</i></a>
+        <a href="{% url 'unattend_event' event.id %}" class="btn right" class="waves-effect waves-light">Leave Event</a>
+        {% endif %}
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">insert_invitation</i>  {{ event.date }}</h6>
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">schedule</i>  {{ event.time }}</h6>
             <div>
@@ -18,8 +21,10 @@
             </div>
             
             <div class="card-action">
+              {% if request.user == event.created_by %}
                 <a class="waves-effect waves-light modal-trigger" href="#modal{{event.id}}">Edit</a>
                 <a class="waves-effect waves-light modal-trigger" href="#modalDelete{{event.id}}">Delete</a>
+              {% endif %}
                 <div id="modal{{event.id}}" class="modal">
                     <div class="modal-content">
                         <h4>Test</h4>
