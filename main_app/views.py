@@ -27,20 +27,40 @@ class GroupCreate(LoginRequiredMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
+def unattend_event(request, event_id):
+  event = Event.objects.get(id=event_id)
+  group_id = event.group.id
+  attending = Attending.objects.get(user=request.user, event=event)
+  attending.delete()
+  return redirect('groups_detail', group_id)
+
+def leave_group(request, group_id):
+  group = GameGroup.objects.get(id=group_id)
+  group.users.remove(request.user)
+  group.save()
+  return redirect('groups_index')
+
 @login_required
 def groups_detail(request, group_id):
+    applicant_list = []
     gamegroup = GameGroup.objects.get(id=group_id)
     print(attendees)
+    gamegroup_users = gamegroup.users.all()
+    attendees = Attending.objects.filter(group=gamegroup)
     applicants = Application.objects.filter(group=gamegroup)
+    for applicant in applicants:
+      applicant_list.append(applicant.user)
+    print(applicant_list)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
-    print(gamegroup.users.all)
     return render(request, 'groups/detail.html', {
         'gamegroup': gamegroup,
         'add_event_form': add_event_form,
         'edit_event_form': edit_event_form,
+        'applicant_list': applicant_list,
+        'gamegroup_users': gamegroup_users,
         'applicants': applicants,
-        # Attending pass
+        'attendees': attendees,
     })
 
 @login_required
@@ -53,6 +73,7 @@ def delete_event(request, event_id):
   else:
     return redirect('groups_detail', group_id)
   
+@login_required
 def update_event(request, event_id):
   event = Event.objects.get(id = event_id)
   group_id = event.group.id
@@ -81,14 +102,15 @@ def apply_group(request, group_id):
 # user1 = User.objects.get(pk=1)
 # user2 = User.objects.get(pk=2)
 
+@login_required
 def accept_app(request, application_id):
   application = Application.objects.get(id=application_id)
-  group_id = application.group.id
+  group_id  = application.group.id
   application.group.users.add(application.user)
-
   application.delete()
   return redirect('groups_detail', group_id)
 
+@login_required
 def decline_app(request, application_id):
   application = Application.objects.get(id=application_id)
   group_id = application.group.id
@@ -99,7 +121,8 @@ def decline_app(request, application_id):
 def attend_event(request, event_id):
   event = Event.objects.get(id=event_id)
   group_id = event.group.id
-  attending = Attending(user=request.user, event=event)
+  group = GameGroup.objects.get(id=group_id)
+  attending = Attending(user=request.user, event=event, group=group)
   try:
     attending.save()
     return redirect('groups_detail', group_id)
@@ -111,9 +134,7 @@ def add_event(request, group_id):
   # gamegroup = GameGroup.objects.get(id=group_id)
   # if request.user in gamegroup.users:
   form = AddEventForm(request.POST)
-  print('******Form Data: ', form)
   if form.is_valid():
-    print('********form valid*********')
     new_event = form.save(commit=False)
     new_event.group_id = group_id
     new_event.created_by_id = request.user.id
@@ -148,7 +169,6 @@ def home(request):
     return redirect('signup')
 
 def add_photo(request, group_id):
-
     gamegroup = GameGroup.objects.get(id=group_id)
     if gamegroup.created_by == request.user:
       photo_file = request.FILES.get('photo-file', None)
