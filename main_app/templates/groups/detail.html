@@ -10,7 +10,10 @@
         {% for photo in gamegroup.photo_set.all %}
           <img width="200px" src="{{photo.url}}">
         {% empty %}
-          <div class="card-panel teal-text center-align"><a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a></div>
+        {% if gamegroup.created_by == request.user %}
+        <i class="material-icons medium circle">image</i><br>
+        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a>
+        {% endif %}
         {% endfor %}
         <p>Members: {{ gamegroup.users.count }}</p>
         <p>City: {{ gamegroup.city }}</p> 
