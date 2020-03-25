@@ -30,6 +30,7 @@ class GroupCreate(LoginRequiredMixin, CreateView):
 @login_required
 def groups_detail(request, group_id):
     gamegroup = GameGroup.objects.get(id=group_id)
+    print(attendees)
     applicants = Application.objects.filter(group=gamegroup)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
