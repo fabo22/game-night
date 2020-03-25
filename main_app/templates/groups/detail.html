@@ -2,10 +2,10 @@
 {% block content %}
 
 <div class="row">
-  <div class="col s6">
+  <div class="col s12">
     <div class="card #bbdefb blue lighten-4 hoverable">
       <div class="card-content black-text">
-        <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a>
+        <!-- <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a> -->
         <span class="card-title">{{ gamegroup.name }}</span>
         <p>City: {{gamegroup.city}}</p> 
         <p>State: {{gamegroup.state}} </p> 
@@ -13,7 +13,7 @@
         <p>Group organizer: {{gamegroup.created_by}}</p> 
         <p>Description: {{ gamegroup.description }}</p>
         {% for photo in gamegroup.photo_set.all %}
-          <img class="responsive-img card-panel" src="{{photo.url}}">
+          <img width="200px" src="{{photo.url}}">
         {% empty %}
           <div class="card-panel teal-text center-align">No Photos Uploaded</div>
         {% endfor %}
@@ -26,6 +26,12 @@
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalA">Delete</a>
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a>
         <a class="waves-effect waves-light modal-trigger teal-text" href="#modalApp">Applications</a>
+        {% endif %}
+
+        {% if request.user in applicants.user_set.all %} 
+        <a class="btn right" class="waves-effect waves-light">Applied!</a>
+        {% elif request.user not in applicants.user %}
+        <a href="{% url 'apply_group' gamegroup.id %}" class="btn right" class="waves-effect waves-light">Join Group</a>
         {% endif %}
           <a class="waves-effect waves-light modal-trigger teal-text" href="#modalC">New Event</a>
           <!-- Modal's Code below here -->
@@ -77,6 +83,10 @@
                 <br><br>
                 <input type="submit" class="btn" value="Upload Photo">
               </form>
+              </div>
+            </div>
+
+
           <div id="modalApp" class="modal">
             <div class="modal-content">
               <h2 class="header">Applications</h2>
