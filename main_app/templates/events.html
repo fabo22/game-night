@@ -4,6 +4,9 @@
 <div class="card hoverable">
     <div class="card-content">
         <h4 class="card-title grey-text text-darken-4">{{ event.name }}</h4>
+        <p class="right"><i class="small material-icons">people</i> {{ event.limit }}</p>
+        <a href="{% url 'attend_event' event.id %}" class="right"><i class="btn-floating btn-small waves-effect waves-light material-icons red">person_add</i></a>
+        <p class="right"><i class="small material-icons">people</i>{{attendees.count}} out of {{ event.limit }}</p>
         <p class="right"><i class="small material-icons">people</i>{{event.attending_set.all.count}} / {{ event.limit }}</p>
         {% if request.user == gamegroup.created_by or request.user in gamegroup_users %}
         {% regroup event|dictsort:"user" by user as user_list %}

@@ -4,6 +4,21 @@
 <div class="row">
   <div class="col s12">
     <div class="card #bbdefb blue lighten-4 hoverable">
+      <div class="card-content grey-text text-darken-4">
+        <!-- <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a> -->
+        <span class="card-title">{{ gamegroup.name }}</span>
+        {% for photo in gamegroup.photo_set.all %}
+        <img width="200px" src="{{photo.url}}">
+        {% empty %}
+        <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+        {% endfor %}
+        <p>Members: {{gamegroup.users.count}}</p>
+        <p>City: {{gamegroup.city}}</p> 
+        <p>State: {{gamegroup.state}} </p> 
+        <p>Zip: {{gamegroup.zip_code}}</p> 
+        <p>Group organizer: {{gamegroup.created_by}}</p> 
+        <p>Description: {{ gamegroup.description }}</p>
+        
       <div class="card-content grey darken-1-text">
         <!-- <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a> -->
         <span class="card-title">{{ gamegroup.name }}</span>

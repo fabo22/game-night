@@ -44,6 +44,7 @@ def leave_group(request, group_id):
 def groups_detail(request, group_id):
     applicant_list = []
     gamegroup = GameGroup.objects.get(id=group_id)
+    print(attendees)
     # events = Event.objects.get(id=event_id)
     gamegroup_users = gamegroup.users.all()
     attendees = Attending.objects.filter(group=gamegroup)
