@@ -6,8 +6,19 @@
 {% for group in gamegroup_list %}
     <a href="{% url 'groups_detail' group.id %}">
     <div class="card hoverable">
-        <div class="card-content">
-            <span class="card-title">{{ group.name }}</span>
+        <div class="card-content blue lighten-4">
+            <ul class="blue lighten-4 avatar">
+                <li>
+                {% for photo in group.photo_set.all %}
+                <img class="circle" width="100px" height="100px" src="{{photo.url}}">
+                {% empty %}
+                <i class="material-icons large red circle">casino</i>
+                {% endfor %}
+                </li>
+                <li>
+                <span class="card-title">{{ group.name }}</span>
+                </li>
+            </ul>
         </div>
     </div>
     </a>

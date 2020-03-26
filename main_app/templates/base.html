@@ -17,7 +17,7 @@
     <nav>
         <div class="nav-wrapper #ffa726 #fff59d yellow lighten-1">
             <ul>
-                <li><a href="{% url 'groups_index' %}" class="left brand-logo grey-text"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
+                <li><a href="{% url 'home' %}" class="left brand-logo grey-text"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
             </ul>
             <ul class="right">
               {% if user.is_authenticated %}
@@ -34,10 +34,10 @@
 <main class="container">
     {% block content %}
     {% endblock %}
-</main>
+    <script> M.AutoInit();</script>
     <footer class="page-footer #ffa726 #ffee58 yellow lighten-1 grey-text">
         <p class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</p>
     </footer>
-     <script> M.AutoInit();</script>
+</main>
 </body>
 </html>

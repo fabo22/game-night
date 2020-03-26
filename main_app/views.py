@@ -45,6 +45,7 @@ def groups_detail(request, group_id):
     applicant_list = []
     gamegroup = GameGroup.objects.get(id=group_id)
     print(attendees)
+    # events = Event.objects.get(id=event_id)
     gamegroup_users = gamegroup.users.all()
     attendees = Attending.objects.filter(group=gamegroup)
     applicants = Application.objects.filter(group=gamegroup)
@@ -122,12 +123,14 @@ def attend_event(request, event_id):
   event = Event.objects.get(id=event_id)
   group_id = event.group.id
   group = GameGroup.objects.get(id=group_id)
-  attending = Attending(user=request.user, event=event, group=group)
-  try:
-    attending.save()
-    return redirect('groups_detail', group_id)
-  except IntegrityError:
-    return redirect('groups_detail', group_id)
+  if event.attending_set.all().count() < event.limit:
+    attending = Attending(user=request.user, event=event, group=group)
+    try:
+      attending.save()
+      return redirect('groups_detail', group_id)
+    except IntegrityError:
+      return redirect('groups_detail', group_id)
+  return redirect('groups_detail', group_id)
 
 @login_required
 def add_event(request, group_id):
@@ -139,6 +142,7 @@ def add_event(request, group_id):
     new_event.group_id = group_id
     new_event.created_by_id = request.user.id
     new_event.save()
+    attend_event(request, new_event.id)
   return redirect('groups_detail', group_id)
   
 @login_required
