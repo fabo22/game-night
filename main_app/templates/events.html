@@ -4,10 +4,14 @@
 <div class="card hoverable">
     <div class="card-content">
         <h4 class="card-title grey-text text-darken-4">{{ event.name }}</h4>
-        <p class="right"><i class="small material-icons">people</i>{{attendees.count}} out of {{ event.limit }}</p>
+        <p class="right"><i class="small material-icons">people</i>{{event.attending_set.all.count}} / {{ event.limit }}</p>
         {% if request.user == gamegroup.created_by or request.user in gamegroup_users %}
-        <a href="{% url 'attend_event' event.id %}" class="right"><i class="btn-floating btn-small waves-effect waves-light material-icons red">people_add</i></a>
+        {% regroup event|dictsort:"user" by user as user_list %}
+        {% if request.user in user_list %}
         <a href="{% url 'unattend_event' event.id %}" class="btn right" class="waves-effect waves-light">Leave Event</a>
+        {% elif event.attending_set.all.count < event.limit %}
+        <a href="{% url 'attend_event' event.id %}" class="btn right" class="waves-effect waves-light">Join Event</a>
+        {% endif %}
         {% endif %}
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">insert_invitation</i>  {{ event.date }}</h6>
         <h6 class= "blue-text text-darken-4"><i class="small material-icons">schedule</i>  {{ event.time }}</h6>
@@ -67,4 +71,5 @@
   </script>
 {% endfor %}
 </div>
+
 
