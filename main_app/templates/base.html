@@ -7,37 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Game Night</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Play&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </head>
 <body>
 <header class="navbar-fixed">
     <nav>
-        <div class="nav-wrapper #ffa726 #fff59d yellow lighten-1">
+        <div class="nav-wrapper blue darken-2">
             <ul>
-                <li><a href="{% url 'home' %}" class="left brand-logo grey-text"><i class="medium material-icons left">casino</i>&nbsp;&nbsp;Game Night</a></li>
+                <li><a id="inside-game-night" href="{% url 'home' %}" class="center brand-logo white-text">Game Night</a></li>
             </ul>
             <ul class="right">
               {% if user.is_authenticated %}
-                <li><a href="{% url 'groups_create' %}" class="grey-text">Create New Group</a></li>
-                <li><a href="{% url 'groups_index' %}" class="grey-text">All Groups</a></li>
-                <li><a href="{% url 'logout' %}" class="grey-text">Log Out</a></li>
+                <li><a href="{% url 'groups_create' %}" class="white-text">Create New Group</a></li>
+                <li><a href="{% url 'groups_index' %}" class="white-text">All Groups</a></li>
+                <li><a href="{% url 'logout' %}" class="white-text">Log Out</a></li>
               {% else %}
-                <li><a href="{% url 'login' %}" class="grey-text">Log In</a></li>
+                <li><a href="{% url 'login' %}" class="white-text">Log In</a></li>
               {% endif %}
             </ul>
         </div>
     </nav>
 </header>
-<main class="container">
+<main>
     {% block content %}
     {% endblock %}
-    <script> M.AutoInit();</script>
-    <footer class="page-footer #ffa726 #ffee58 yellow lighten-1 grey-text">
-        <p class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</p>
-    </footer>
 </main>
+<footer class="page-footer yellow accent-2 grey-text darken-2">
+    <p class="right">All Rights Reserved, &copy; 2020 GAME NIGHT &nbsp;</p>
+</footer>
+<script> M.AutoInit();</script>
 </body>
 </html>

@@ -1,14 +1,86 @@
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: 'Play', sans-serif;
+}
+
 main {
   flex: 1 0 auto;
+  background: url(https://wallpaperaccess.com/full/378757.png);
 }
 
 footer.page-footer {
   padding-top: 0;
   text-align: right;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.event-card-actions {
+  height: 3vh !important;
+}
+.leave-event {
+  margin-left: 1vmin !important;
+}
+
+.delete-event {
+  margin-right: 1vmin;
+}
+
+#group-card-detail {
+  height: 42vh;
+  background-color: #4b3bae;
+}
+
+#group-image-div {
+  height: 10vh;
+  width: 20vw !important;
+}
+
+#group-image {
+  height: 36vh !important;
+  width: 36vw !important;
+}
+
+#group-detail-actions { 
+  position:absolute;                  
+  bottom:0;                          
+  right:0;                          
+} 
+
+i.icon-green {
+  color: #2b76d1;
+}
+
+#group-name {
+  font-size: 4vmin;
+}
+#group-description {
+  color: black !important;
+}
+.group-text {
+  font-size: 1.3vmin;
+  color: black !important;
+}
+
+.inline-icon {
+  vertical-align: bottom;
+  font-size: 18px !important;
+}
+
+#signup-image {
+  height: 67vh;
+}
+
+#inside-game-night {
+  font-family: 'Play', sans-serif;
+  padding-left: 1vmin;
+  padding-right: 1vmin;
+}
+
+#logo {
+  font-weight: 900 !important;
 }

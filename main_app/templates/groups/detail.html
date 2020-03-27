@@ -3,61 +3,46 @@
 
 <div class="row">
   <div class="col s12">
-    <div class="card #bbdefb blue lighten-4 hoverable">
-      <div class="card-content grey-text text-darken-4">
-        <!-- <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a> -->
-        <span class="card-title">{{ gamegroup.name }}</span>
-        {% for photo in gamegroup.photo_set.all %}
-        <img width="200px" src="{{photo.url}}">
-        {% empty %}
-        <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-        {% endfor %}
-        <p>Members: {{gamegroup.users.count}}</p>
-        <p>City: {{gamegroup.city}}</p> 
-        <p>State: {{gamegroup.state}} </p> 
-        <p>Zip: {{gamegroup.zip_code}}</p> 
-        <p>Group organizer: {{gamegroup.created_by}}</p> 
-        <p>Description: {{ gamegroup.description }}</p>
-        
-      <div class="card-content grey darken-1-text">
-        <!-- <a href="{% url 'apply_group' gamegroup.id %}" class="right"><i class="btn-floating btn-large waves-effect waves-light" class="material-icons red"></i></a> -->
-        <span class="card-title">{{ gamegroup.name }}</span>
-        {% for photo in gamegroup.photo_set.all %}
-          <img width="200px" src="{{photo.url}}">
-        {% empty %}
+    <div id="group-card-detail" class="card hoverable">
+        <div class="card-content black-text text-darken-4">
+          <div class="col s4">
+            {% for photo in gamegroup.photo_set.all %}
+            <img id="group-image" src="{{photo.url}}">
+            {% empty %}
+            {% if gamegroup.created_by == request.user %}
+            <i class="material-icons medium circle">image</i><br>
+            <a class="waves-effect waves-light modal-trigger blue darken-2-text" href="#modalD">Add Photo</a>
+            {% endif %}
+            {% endfor %} 
+          </div>
+          <div id="group-image-div" class="col s4">
+          </div>
+          <div class="col s5 pull-s1">
+          <h3 class="left-align">{{ gamegroup.name }}<span id="member" class="right"><i class="inline-icon-large icon-green material-icons">people</i>{{gamegroup.users.count}}</span></h3>
+          <h8>Group organizer: {{gamegroup.created_by}}</h8> 
+          <h5>{{gamegroup.city}}</h5> 
+          <h6 class="">State: {{gamegroup.state}} </h6> 
+          <h6>Zip: {{gamegroup.zip_code}}</h6> 
+          <p class="center-align"> {{ gamegroup.description }}</p>
+        </div>
+          <div id="group-detail-actions" class="card-action">
         {% if gamegroup.created_by == request.user %}
-        <i class="material-icons medium circle">image</i><br>
-        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalD">Add Photo</a>
-        {% endif %}
-        {% endfor %}
-        <p>Members: {{ gamegroup.users.count }}</p>
-        <p>City: {{ gamegroup.city }}</p> 
-        <p>State: {{ gamegroup.state }} </p> 
-        <p>Zip: {{ gamegroup.zip_code }}</p> 
-        <p>Group organizer: {{ gamegroup.created_by }}</p> 
-        <p>Description: {{ gamegroup.description }}</p>
-      </div>
-
-
-      <div class="card-action">
-        {% if gamegroup.created_by == request.user %}
-        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalB">Edit</a>
-        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalA">Delete</a>
-        
-        <a class="waves-effect waves-light modal-trigger teal-text" href="#modalApp">Applications</a>
+          <a class="waves-effect waves-light modal-trigger blue-text text-darken-2" href="#modalB">Edit</a>
+          <a class="waves-effect waves-light modal-trigger blue-text text-darken-2" href="#modalA">Delete</a>
+          <a class="waves-effect waves-light modal-trigger blue-text text-darken-2" href="#modalApp">Applications</a>
         {% endif %}
 
         {% if request.user != gamegroup.created_by %}
           {% if request.user in applicant_list %}
-          <a class="btn right" class="waves-effect waves-light">Applied!</a>
+          <a class="btn blue darken-2 right" class="waves-effect waves-light">Applied!</a>
           {% elif request.user in gamegroup_users %}
-          <a href="{% url 'leave_group' gamegroup.id %}" class="btn right" class="waves-effect waves-light">Leave Group</a>
+          <a href="{% url 'leave_group' gamegroup.id %}" class="btn red right" class="waves-effect waves-light">Leave Group</a>
           {% else %}
           <a href="{% url 'apply_group' gamegroup.id %}" class="btn right" class="waves-effect waves-light">Join Group</a>
           {% endif %}
         {% endif %}
         {% if request.user == gamegroup.created_by or request.user in gamegroup_users %}
-          <a class="waves-effect waves-light modal-trigger teal-text" href="#modalC">New Event</a>
+          <a class="waves-effect waves-light modal-trigger blue-text text-darken-2" href="#modalC">New Event</a>
         {% endif %}
           <!-- Modal's Code below here -->
           <div id="modalA" class="modal">
@@ -76,7 +61,9 @@
               <form action="{% url 'groups_update' gamegroup.id %}" method="post">
                 <!-- Django requires the following for security purposes -->
                 {% csrf_token %}
-                <input name="description" type="text" value="{{gamegroup.description}}" >
+                <br>
+                <br>
+                <input class="center" name="description" type="text" value="{{gamegroup.description}}" >
                 <input type="submit" value="Submit!" class="btn">
               </form>
             </div>
@@ -114,9 +101,9 @@
 
           <div id="modalApp" class="modal">
             <div class="modal-content">
-              <h2 class="header">Applications</h2>
-              <div class="modal-header right">
-                <a class="modal-close waves-effect waves-green btn">Cancel</a>
+              <h2 class="left">Applications</h2>
+              <div class="right">
+                <a class="modal-close waves-effect red btn">Cancel</a>
               </div>
               {% for application in applicants %}
               <div class="col s12">
@@ -128,30 +115,32 @@
                       <div class="card-content">
                         <h4>{{application.user.username}}</h4>
                       </div>
-                      <div class="card-action">
-                        <form action="{% url 'accept_app' application.id %}" method="post">
-                          {% csrf_token %}
-                          <input type="submit" class="btn" value="Accept User">
-                        </form>
-                        <form class="right" action="{% url 'decline_app' application.id %}" method="post">
-                          {% csrf_token %}
-                          <input type="submit" class="btn" value="Decline User">
-                        </form>
-                      </div>
+                      <ul class="card-action">
+                        <li>
+                          <form class="left" action="{% url 'accept_app' application.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn" value="Accept User">
+                          </form>
+                        </li>
+                        <li>
+                          <form class="right" action="{% url 'decline_app' application.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn" value="Decline User">
+                          </form>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
               {% endfor %}
               
             </div>
-            <div class="modal-footer">
-              <a class="modal-close waves-effect waves-green btn">Cancel</a>
-            </div>
+
           </div>
-<!-- Modal's Code above here -->
       </div>
     </div>
   </div>
+</div>
 </div>
 <script>
   var dateEl = document.getElementById('id_date');
