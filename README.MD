@@ -50,6 +50,7 @@ Measurement of success: Engagement and individual contribution will translate in
 
 [Game Night Trello](https://trello.com/b/CcQ3NIES/game-night)
 
+[Pitch Deck](https://docs.google.com/presentation/d/1DImZYr3uk_slKnOq_oa1F8sVz4dm_jGRtWGQ4qI0CDk/edit#slide=id.gcb9a0b074_1_0)
 
 [Game Night](https://game-night-efm.herokuapp.com/)
 
