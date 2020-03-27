@@ -32,6 +32,9 @@ class Event(models.Model):
     game_description = models.TextField(max_length=3000)
     limit = models.IntegerField()
     group = models.ForeignKey(GameGroup, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
     
   # change the default sort
     class Meta:

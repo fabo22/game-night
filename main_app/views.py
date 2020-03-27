@@ -43,15 +43,14 @@ def leave_group(request, group_id):
 @login_required
 def groups_detail(request, group_id):
     applicant_list = []
+    applicant_in_event_list = []
     gamegroup = GameGroup.objects.get(id=group_id)
-    print(attendees)
-    # events = Event.objects.get(id=event_id)
+    event = Event.objects.filter(group=gamegroup)
     gamegroup_users = gamegroup.users.all()
     attendees = Attending.objects.filter(group=gamegroup)
     applicants = Application.objects.filter(group=gamegroup)
     for applicant in applicants:
       applicant_list.append(applicant.user)
-    print(applicant_list)
     edit_event_form = EditEventForm()
     add_event_form = AddEventForm()
     return render(request, 'groups/detail.html', {
@@ -60,8 +59,9 @@ def groups_detail(request, group_id):
         'edit_event_form': edit_event_form,
         'applicant_list': applicant_list,
         'gamegroup_users': gamegroup_users,
-        'applicants': applicants,
         'attendees': attendees,
+        'applicants': applicants,
+        "applicant_in_event_list": applicant_in_event_list,
     })
 
 @login_required

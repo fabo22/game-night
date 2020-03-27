@@ -1,25 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <p class="red-text">{{ error_message }}</p>
-<div class="col s12 m7">
-  <h2 class="header center">Welcome</h2>
-  <div class="card hoverable">
-    <div class="card-image waves-effect waves-block waves-light">
-      <img class="activator" src="https://www.avenuecalgary.com/wp-content/uploads/2016/02/Boardgame.jpeg">
-    </div>
-    <div class="card-content">
-      <span class="card-title activator red-text">Sign Up<i class="material-icons right">unfold_more</i></span>
-      <p><a href="{% url 'groups_index' %}">Browse Groups</a></p>
-    </div>
-    <div class="card-reveal">
-      <span class="card-title grey-text text-darken-4">Sign Up<i class="material-icons right">unfold_less</i></span>
-        <form method="post" action="{% url 'signup' %}">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input type="submit" class="btn" value="sign up">
-        </form>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card hoverable">
+        <div class="card-image waves-effect waves-block waves-light">
+          <img id="signup-image" class="activator" src="https://i.imgur.com/qazonl0.png">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator center-align red-text">Sign Up</span>
+          <h6 class="center-align">Find a group to play your favorite games with!</h6>
+        </div>
+        <div class="card-reveal">
+          <div class="container">
+            <div class="row">
+              <div class="col s8 offset-s2">
+                <h4 class="center-align">Sign Up</h4>
+                <form class="center-align" method="post" action="{% url 'signup' %}">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <input type="submit" class="btn" value="sign up">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
